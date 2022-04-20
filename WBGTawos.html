@@ -299,50 +299,57 @@ p {
 </div>
 
 <script language="JavaScript" type="text/javascript">
-var selAWOS = false;
+var selAWOS = false,
     wbgtMod = 0,
     workLoad = "easy",
     addClothing = "noClothing",
     tacticalGear = "noTactical",
-    wbgt;
+    wbgt = 0;
 
 function selectAWOS() {
+  selAWOS = true;
   var awos = awosSel.options[awosSel.selectedIndex].value;
   awosDiv.remove();
   workEasy.checked = true;
   clothingNone.checked = true;
   armorNo.checked = true;
+  var url = "https://api.synopticdata.com/v2/stations/",
+      dta = "latest?",
+      tkn = "token=de90568f558f47ed9823c8d397609274",
+      sid = "&stid=" + awos,
+      vrs = "&vars=air_temp,relative_humidity,wind_speed,pressure,cloud_layer_1",
+      uts = "&units=english",
+      otz = "&obtimezone=local",
+      tft = "&timeformat=%m/%d/%Y%20at%20%H:%M%z";
+  url += dta + tkn + sid + vrs + uts + otz + tft;
   const xmlhttp = new XMLHttpRequest();
-  var url = "https://api.synopticdata.com/v2/stations/latest?token=21b8403530954b0086093a47b496e954&vars=air_temp,relative_humidity,wind_speed,pressure,cloud_layer_1&units=english&obtimezone=local&timeformat=%m/%d/%Y%20at%20%H:%M%z&stid=" + awos;
   xmlhttp.open("GET", url);
   xmlhttp.send();
   xmlhttp.onload = function() {
-    var stID, Lt, Ln, rDtTm, Ta, RH, Ws, Pa, Cl, Tw;
     const myObj = JSON.parse(this.responseText);
-    stID = myObj.STATION[0]["STID"];
-    Lt = myObj.STATION[0]["LATITUDE"];
-    Ln = myObj.STATION[0]["LONGITUDE"];
-    rDtTm = myObj.STATION[0]["OBSERVATIONS"]["air_temp_value_1"]["date_time"];
-    Ta = myObj.STATION[0]["OBSERVATIONS"]["air_temp_value_1"]["value"];
-    RH = myObj.STATION[0]["OBSERVATIONS"]["relative_humidity_value_1"]["value"];
-    Ws = myObj.STATION[0]["OBSERVATIONS"]["wind_speed_value_1"]["value"];
-    Pa = myObj.STATION[0]["OBSERVATIONS"]["pressure_value_1d"]["value"];
-    Cl = myObj.STATION[0]["OBSERVATIONS"]["cloud_layer_1_value_1d"]["value"]["sky_condition"];
-    Tw = decideConvert(Ta, RH, Pa);
+    var stID = myObj.STATION[0]["STID"],
+        Lt = myObj.STATION[0]["LATITUDE"],
+        Ln = myObj.STATION[0]["LONGITUDE"],
+        rDtTm = myObj.STATION[0]["OBSERVATIONS"]["air_temp_value_1"]["date_time"],
+        Ta = myObj.STATION[0]["OBSERVATIONS"]["air_temp_value_1"]["value"],
+        RH = myObj.STATION[0]["OBSERVATIONS"]["relative_humidity_value_1"]["value"],
+        Ws = myObj.STATION[0]["OBSERVATIONS"]["wind_speed_value_1"]["value"],
+        Pa = myObj.STATION[0]["OBSERVATIONS"]["pressure_value_1d"]["value"],
+        Cl = myObj.STATION[0]["OBSERVATIONS"]["cloud_layer_1_value_1d"]["value"]["sky_condition"],
+        Tw = decideConvert(Ta, RH, Pa);
     wbgtTime.innerHTML = stID.slice(1) + " Reading: " + rDtTm.slice(0,19);
     wbgt = wbgt_calculator(rDtTm, Ta, Tw, RH, Ws, Pa, Cl, Lt, Ln);
     wbgtRange.value = wbgt*10;
     wbgtRead.innerHTML = "WBGT<sub>O</sub> (<small><sup>o</sup></small>F): " + wbgt.toFixed(1);
     flagColor(wbgt);
   }
-  selAWOS = true;
 }
 function wbgtValue(sliderValue) {
   if (selAWOS == false) {
     return;
   } else if (selAWOS == true) {
-    var d = new Date();
-    var month = ("0" + (d.getMonth()+1)).slice(-2),
+    var d = new Date(),
+        month = ("0" + (d.getMonth()+1)).slice(-2),
         day = ("0" + d.getDate()).slice(-2),
         year = d.getFullYear().toString(),
         hour = ("0" + d.getHours()).slice(-2),
@@ -361,11 +368,11 @@ function wbgtValue(sliderValue) {
   }
 }
 function flagColor(t) {
-  var tdFlagOn;
-  var tdWorkOn;
-  var tdWorkOff1;
-  var tdWorkOff2;
-  var i;
+  var tdFlagOn,
+      tdWorkOn,
+      tdWorkOff1,
+      tdWorkOff2,
+      i;
   if (t<81.95) {
     wbgtRead.style.backgroundColor = "lightgray";
     wbgtReadDiv.style.backgroundColor = "lightgray";
@@ -794,7 +801,7 @@ function wbgt_calculator(rDtTm, Ta, Tw, RH, Ws, Pa, Cl, Lt, Ln) {
 
     // Convert wind speed to m/s, temperature to degrees Celsius, and
     // barometric pressure to millibars.
-    var temp_c = 5/9*(temp_f - 32);
+    var temp_c = ftoc(temp_f);
     var speed_mps = ws * 0.44704;
     pres = pres * 33.8639;
 
