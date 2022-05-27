@@ -363,7 +363,7 @@ async function mesonet(mesoCall) {
   if (mesoCall == wbgtLatest) {
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "latest?",
-        tkn = "token=21b8403530954b0086093a47b496e954",
+        tkn = "token=de90568f558f47ed9823c8d397609274",
         sid = "&stid=" + awos,
         vrs = "&vars=air_temp,relative_humidity,wind_speed,pressure,cloud_layer_1",
         uts = "&units=english",
@@ -373,7 +373,7 @@ async function mesonet(mesoCall) {
   } else if (mesoCall == wbgtSeries) {
       var url = "https://api.synopticdata.com/v2/stations/",
           dta = "timeseries?",
-          tkn = "token=21b8403530954b0086093a47b496e954",
+          tkn = "token=de90568f558f47ed9823c8d397609274",
           sid = "&stid=" + awos,
           ds = new Date(parseInt(rdgDte.slice(6,10)),parseInt(rdgDte.slice(0,2))-1,parseInt(rdgDte.slice(3,5))),
           ySt = ("00" + ds.getFullYear()).slice(-4),
@@ -394,7 +394,7 @@ async function mesonet(mesoCall) {
       rdgDte = wbgtDate.value;
       var url = "https://api.synopticdata.com/v2/stations/",
           dta = "nearesttime?",
-          tkn = "token=21b8403530954b0086093a47b496e954",
+          tkn = "token=de90568f558f47ed9823c8d397609274",
           sid = "&stid=" + awos,
           da = new Date(parseInt(rdgDte.slice(0,4)),parseInt(rdgDte.slice(5,7))-1,parseInt(rdgDte.slice(8,10))),
           yAt = ("00" + da.getFullYear()).slice(-4),
