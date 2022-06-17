@@ -114,10 +114,30 @@ h1 {
 
 table {
   text-align: center;
-  border: 2px solid black;
-  border-collapse: collapse;
+  border-collapse: separate;
+  border-spacing: 0px;
   padding: 5px;
   width: 100%;
+}
+
+tr:first-of-type th {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+tr:first-of-type td {
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+
+tr th:first-of-type {
+  border-right: 2px solid black;
+  border-left: 2px solid black;
+}
+
+tr td:first-of-type {
+  border-right: 2px solid black;
+  border-left: 2px solid black;
 }
 
 th {
@@ -125,15 +145,15 @@ th {
   font-size: large;
   color: lightgray;
   text-shadow: -1px 0 black, 0 1px black, 1px 0 black, 0 -1px black;
-  border: 2px solid black;
-  border-collapse: collapse;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
   padding: 5px;
 }
 
 td {
   text-align: center;
-  border: 2px solid black;
-  border-collapse: collapse;
+  border-right: 2px solid black;
+  border-bottom: 2px solid black;
   padding: 5px;
 }
 
@@ -157,12 +177,12 @@ p {
         <option value="KFFO">KFFO - Wright-Patterson AFB</option>
 	<option value="KFHU">KFHU - Fort Huachuca EPG</option>
         <option value="KLCK">KLCK - Rickenbacker ANGB</option>
-	<option value="KMFD">KMFD - Mansfield ANGB</option>
+        <option value="KMFD">KMFD - Mansfield ANGB</option>
 	<option value="KMRB">KMRB - Martinsburg ANGB</option>
         <option value="KMTC">KMTC - Selfridge ANGB</option>
         <option value="KOFF">KOFF - Offutt AFB</option>
         <option value="KSGH">KSGH - Springfield ANGB</option>
-	<option value="KTOL">KTOL - Toledo ANGB</option>
+        <option value="KTOL">KTOL - Toledo ANGB</option>
         <option value="KTUL">KTUL - Tulsa ANGB</option>
         <option value="KZZV">KZZV - Zanesville ANGB</option>
       </select>
@@ -228,24 +248,24 @@ p {
 <div style="overflow-x:auto">
 <table onload="this.style.tableLayout = 'auto'">
   <tr style="background-color:gray; vertical-align:center">
-    <th rowspan="3" style="width:8%">Flag<br>Color</th>
-    <th rowspan="3" style="width:8%">WBGT<br>(<small><sup>o</sup></small>F)</th>
+    <th rowspan="3" style="width:11%">Flag<br>Color</th>
+    <th rowspan="3" style="width:11%">WBGT<br>(<small><sup>o</sup></small>F)</th>
     <th colspan="2" style="border-bottom:none">Easy Work<br>(250 W)</th>
     <th colspan="2" style="border-bottom:none">Moderate Work<br>(425 W)</th>
     <th colspan="2" style="border-bottom:none">Hard Work<br>(600 W)</th>
   </tr>
   <tr style="background-color:gray; vertical-align:top">
-    <td colspan="2" style="width:28%; text-align:left; border-top:none">Weapon maintenance, marksmanship training, drill and ceremony</td>
-    <td colspan="2" style="width:28%; text-align:left; border-top:none">Patrolling with 30 lb load, low and high crawl, dig defensive position</td>
-    <td colspan="2" style="width:28%; text-align:left; border-top:none">Patrolling with 45 lb load, four person litter carry (180 lbs), jogging 4 mph</td>
+    <td colspan="2" style="width:26%; text-align:left; border-top:none; border-left:none">Weapon maintenance, marksmanship training, drill and ceremony</td>
+    <td colspan="2" style="width:26%; text-align:left; border-top:none">Patrolling with 30 lb load, low and high crawl, dig defensive position</td>
+    <td colspan="2" style="width:26%; text-align:left; border-top:none">Patrolling with 45 lb load, four person litter carry (180 lbs), jogging 4 mph</td>
   </tr>
   <tr style="background-color:gray">
-    <td>Work/<br>Rest<br>Cycle</td>
-    <td>Water<br>Intake<br>Qt/hr</td>
-    <td>Work/<br>Rest<br>Cycle</td>
-    <td>Water<br>Intake<br>Qt/hr</td>
-    <td>Work/<br>Rest<br>Cycle</td>
-    <td>Water<br>Intake<br>Qt/hr</td>
+    <td style="width:13%; border-left:none">Work/<br>Rest<br>Cycle</td>
+    <td style="width:13%">Water<br>Intake<br>Qt/hr</td>
+    <td style="width:13%">Work/<br>Rest<br>Cycle</td>
+    <td style="width:13%">Water<br>Intake<br>Qt/hr</td>
+    <td style="width:13%">Work/<br>Rest<br>Cycle</td>
+    <td style="width:13%">Water<br>Intake<br>Qt/hr</td>
   </tr>
   <tr id="flag" style="background-color:lightgray">
     <td id="fC" class="all wbgt">&nbsp</td>
@@ -269,27 +289,27 @@ p {
   </tr>
   <tr style="background-color:lightgray">
     <td rowspan="3" style="text-align:left">Work Load:</td>
-    <td style="text-align:left; border-style:none none none none"><input style="margin-right:5px" type="radio" name="work" value="easy" id="workEasy" onclick="return radioClick(this.value)" checked>Easy</td>
+    <td style="text-align:left; border-bottom:none"><input style="margin-right:5px" type="radio" name="work" value="easy" id="workEasy" onclick="return radioClick(this.value)" checked>Easy</td>
   </tr>
   <tr style="background-color:lightgray">
-    <td style="text-align:left; border-style:none none none none"><input style="margin-right:5px" type="radio" name="work" value="moderate" id="workModerate" onclick="return radioClick(this.value)">Moderate</td>
+    <td style="text-align:left; border-bottom:none; border-left:none"><input style="margin-right:5px" type="radio" name="work" value="moderate" id="workModerate" onclick="return radioClick(this.value)">Moderate</td>
   </tr>
   <tr style="background-color:lightgray">
-    <td style="text-align:left; border-style:none none solid none"><input style="margin-right:5px" type="radio" name="work" value="hard" id="workHard" onclick="return radioClick(this.value)">Hard</td>
+    <td style="text-align:left; border-left:none"><input style="margin-right:5px" type="radio" name="work" value="hard" id="workHard" onclick="return radioClick(this.value)">Hard</td>
   </tr>
   <tr style="background-color:lightgray">
     <td rowspan="2" style="text-align:left">Additional Clothing Layer:</td>
-    <td style="text-align:left; border-style:none none none none"><input style="margin-right:5px" type="radio" name="clothing" value="noClothing" id="clothingNone" onclick="return radioClick(this.value)" checked>None</td>
+    <td style="text-align:left; border-bottom:none"><input style="margin-right:5px" type="radio" name="clothing" value="noClothing" id="clothingNone" onclick="return radioClick(this.value)" checked>None</td>
   </tr>
   <tr style="background-color:lightgray">
-    <td style="text-align:left; border-style:none none solid none"><input style="margin-right:5px" type="radio" name="clothing" value="mopp" id="clothingAdd" onclick="return radioClick(this.value)">MOPP/Firefighting</td>
+    <td style="text-align:left; border-left:none"><input style="margin-right:5px" type="radio" name="clothing" value="mopp" id="clothingAdd" onclick="return radioClick(this.value)">MOPP/Firefighting</td>
   </tr>
   <tr style="background-color:lightgray">
     <td rowspan="2" style="text-align:left">Tactical Gear:</td>
-    <td style="text-align:left; border-style:none none none none"><input style="margin-right:5px" type="radio" name="tactical" value="noTactical" id="armorNo" onclick="return radioClick(this.value)" checked>None</td>
+    <td style="text-align:left; border-bottom:none"><input style="margin-right:5px" type="radio" name="tactical" value="noTactical" id="armorNo" onclick="return radioClick(this.value)" checked>None</td>
   </tr>
   <tr style="background-color:lightgray">
-    <td style="text-align:left; border-style:none none none none"><input style="margin-right:5px" type="radio" name="tactical" value="armor" id="armorYes" onclick="return radioClick(this.value)">Body Armor</td>
+    <td style="text-align:left; border-left:none"><input style="margin-right:5px" type="radio" name="tactical" value="armor" id="armorYes" onclick="return radioClick(this.value)">Body Armor</td>
   </tr>
 </table>
 </div>
