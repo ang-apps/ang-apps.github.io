@@ -170,6 +170,7 @@ p {
     <div id="awosDiv">
       <select id="awosSel" onchange="selectAWOS()">
         <option value="" id="selDef">----Select AWOS----</option>
+	<option value="KAPN">KAPN - Alpena CRTC</option>
 	<option value="KBAD">KBAD - Barksdale AFB</option>
 	<option value="KCRW">KCRW - Charleston ANGB</option>
 	<option value="KDMA">KDMA - Davis-Monthan AFB</option>
@@ -363,7 +364,7 @@ async function mesonet(mesoCall) {
   if (mesoCall == wbgtLatest) {
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "latest?",
-        tkn = "token=de90568f558f47ed9823c8d397609274",
+        tkn = "token=a9a3971562b248e285a9f978339e23aa",
         sid = "&stid=" + awos,
         vrs = "&vars=air_temp,relative_humidity,wind_speed,pressure,cloud_layer_1",
         uts = "&units=english",
@@ -373,7 +374,7 @@ async function mesonet(mesoCall) {
   } else if (mesoCall == wbgtSeries) {
       var url = "https://api.synopticdata.com/v2/stations/",
           dta = "timeseries?",
-          tkn = "token=de90568f558f47ed9823c8d397609274",
+          tkn = "token=a9a3971562b248e285a9f978339e23aa",
           sid = "&stid=" + awos,
           ds = new Date(parseInt(rdgDte.slice(6,10)),parseInt(rdgDte.slice(0,2))-1,parseInt(rdgDte.slice(3,5))),
           ySt = ("00" + ds.getFullYear()).slice(-4),
@@ -394,7 +395,7 @@ async function mesonet(mesoCall) {
       rdgDte = wbgtDate.value;
       var url = "https://api.synopticdata.com/v2/stations/",
           dta = "nearesttime?",
-          tkn = "token=de90568f558f47ed9823c8d397609274",
+          tkn = "token=a9a3971562b248e285a9f978339e23aa",
           sid = "&stid=" + awos,
           da = new Date(parseInt(rdgDte.slice(0,4)),parseInt(rdgDte.slice(5,7))-1,parseInt(rdgDte.slice(8,10))),
           yAt = ("00" + da.getFullYear()).slice(-4),
