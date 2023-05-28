@@ -394,7 +394,7 @@ p {
     <th style="width:20%">WBGT<sub>O</sub> (&#8457;)</th>
   </tr>
   <tr style="background-color:lightgray">
-    <td colspan="5"><a id="sl" href="#">Download</a></td>
+    <td colspan="5"><a id="wbgtSave" href="#">Download</a></td>
   </tr>
 </table>
 </div>
@@ -420,7 +420,7 @@ function selectAWOS() {
   workEasy.checked = true;
   clothingNone.checked = true;
   armorNo.checked = true;
-  sl.onclick= function() {csvSave();};
+  wbgtSave.onclick= function() {csvSave();};
   mesonet(wbgtLatest);
 }
 async function mesonet(mesoCall) {
@@ -500,6 +500,7 @@ async function mesonet(mesoCall) {
 function wbgtLatest(myObj) {
   if (myObj.SUMMARY["NUMBER_OF_OBJECTS"] == 0) {
     alert("Mesonet latest call returned no results. Change date or refresh page.");
+    wbgtDate.disabled = false;
   } else {
     var stID = myObj.STATION[0]["STID"],
         Lt = myObj.STATION[0]["LATITUDE"],
@@ -713,7 +714,7 @@ function csvSave() {
   }
   CSV = CSV.join("\n");
   var csvFile = new Blob([CSV],{type:'text/csv'}),
-      a = document.getElementById("sl");
+      a = document.getElementById("wbgtSave");
   a.href = URL.createObjectURL(csvFile);
   a.download = fileName;
 }
