@@ -404,6 +404,7 @@ p {
 var wbgtHead = false,
     slEnbl = false,
     rdEnbl = false,
+    tkn = "",
     wbgtMod = 0,
     workLoad = "easy",
     addClothing = "noClothing",
@@ -422,13 +423,25 @@ function selectAWOS() {
   clothingNone.checked = true;
   armorNo.checked = true;
   wbgtSave.onclick= function() {csvSave();};
-  mesonet(wbgtLatest);
+  getToken(wbgtLatest);
+}
+async function getToken(mesoCall) {
+  let myPromise = new Promise(function(resolve) {
+    let req = new XMLHttpRequest();
+    req.open('GET', "https://demos.synopticdata.com/data/demotoken");
+    req.onload = function() {
+      resolve(req.responseText);
+    };
+    req.send();
+  });
+  const myText = await myPromise;
+  tkn = "token=" + myText;
+  mesonet(mesoCall);
 }
 async function mesonet(mesoCall) {
   if (mesoCall == wbgtLatest) {
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "latest?",
-        tkn = "token=de90568f558f47ed9823c8d397609274",
         sid = "&stid=" + awos,
         vrs = "&vars=metar,air_temp,relative_humidity,wind_speed,pressure,cloud_layer_1",
         uts = "&units=english",
@@ -438,7 +451,6 @@ async function mesonet(mesoCall) {
   } else if (mesoCall == wbgtSeries) {
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "timeseries?",
-        tkn = "token=de90568f558f47ed9823c8d397609274",
         sid = "&stid=" + awos,
         yy = parseInt(rdgDte.slice(6,10)),
         mm = parseInt(rdgDte.slice(0,2))-1,
@@ -466,7 +478,6 @@ async function mesonet(mesoCall) {
     rdgDte = wbgtDate.value;
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "nearesttime?",
-        tkn = "token=de90568f558f47ed9823c8d397609274",
         sid = "&stid=" + awos,
         yy = parseInt(rdgDte.slice(0,4)),
         mm = parseInt(rdgDte.slice(5,7))-1,
@@ -670,7 +681,7 @@ function wbgtNearest(myObj) {
         rDtTm = myObj.STATION[0]["OBSERVATIONS"]["metar_value_1"]["date_time"];
     rdgDte = rDtTm.slice(0,10);
     utcOff = parseInt(rDtTm.slice(19,22));
-    mesonet(wbgtSeries);
+    getToken(wbgtSeries);
   }
 }
 function readingSelect(rw) {

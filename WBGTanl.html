@@ -201,6 +201,7 @@ p {
         <option value="KPIA">KPIA - Peoria ANGB</option>
         <option value="KRIV">KRIV - March ARB</option>
         <option value="KRNO">KRNO - Reno ANGB</option>
+        <option value="KSAV">KSAV - Savannah CRTC</option>
         <option value="KSGH">KSGH - Springfield ANGB</option>
         <option value="KSJC">KSJC - San Jose IAP</option>
         <option value="KSLC">KSLC - Roland R Wright ANGB</option>
@@ -403,6 +404,7 @@ p {
 var wbgtHead = false,
     slEnbl = false,
     rdEnbl = false,
+    tkn = "",
     wbgtMod = 0,
     workLoad = "easy",
     addClothing = "noClothing",
@@ -421,13 +423,25 @@ function selectAWOS() {
   clothingNone.checked = true;
   armorNo.checked = true;
   wbgtSave.onclick= function() {csvSave();};
-  mesonet(wbgtLatest);
+  getToken(wbgtLatest);
+}
+async function getToken(mesoCall) {
+  let myPromise = new Promise(function(resolve) {
+    let req = new XMLHttpRequest();
+    req.open('GET', "https://demos.synopticdata.com/data/demotoken");
+    req.onload = function() {
+      resolve(req.responseText);
+    };
+    req.send();
+  });
+  const myText = await myPromise;
+  tkn = "token=" + myText;
+  mesonet(mesoCall);
 }
 async function mesonet(mesoCall) {
   if (mesoCall == wbgtLatest) {
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "latest?",
-        tkn = "token=a9a3971562b248e285a9f978339e23aa",
         sid = "&stid=" + awos,
         vrs = "&vars=metar,air_temp,relative_humidity,wind_speed,pressure,cloud_layer_1",
         uts = "&units=english",
@@ -437,7 +451,6 @@ async function mesonet(mesoCall) {
   } else if (mesoCall == wbgtSeries) {
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "timeseries?",
-        tkn = "token=a9a3971562b248e285a9f978339e23aa",
         sid = "&stid=" + awos,
         yy = parseInt(rdgDte.slice(6,10)),
         mm = parseInt(rdgDte.slice(0,2))-1,
@@ -465,7 +478,6 @@ async function mesonet(mesoCall) {
     rdgDte = wbgtDate.value;
     var url = "https://api.synopticdata.com/v2/stations/",
         dta = "nearesttime?",
-        tkn = "token=a9a3971562b248e285a9f978339e23aa",
         sid = "&stid=" + awos,
         yy = parseInt(rdgDte.slice(0,4)),
         mm = parseInt(rdgDte.slice(5,7))-1,
@@ -669,7 +681,7 @@ function wbgtNearest(myObj) {
         rDtTm = myObj.STATION[0]["OBSERVATIONS"]["metar_value_1"]["date_time"];
     rdgDte = rDtTm.slice(0,10);
     utcOff = parseInt(rDtTm.slice(19,22));
-    mesonet(wbgtSeries);
+    getToken(wbgtSeries);
   }
 }
 function readingSelect(rw) {
@@ -1189,8 +1201,8 @@ function wbgt_calculator(rDtTm, Ta, Tw, RH, Ws, Pa, Cl, Lt, Ln) {
     // wind speed and y is the height above the ground.
     ws = ws*Math.pow(2/10, 0.24);
 
-    // Enforce a minimum wind speed of 1 mph to account for the fact that
-    // outdoor workers are always moving.
+    // Enforce a minimum wind speed of 2 mph to account for the fact that
+    // outdoor workers are always moving. Changed from 1 mph.
     ws = Math.max(ws, 2);
     
     // Set the reference height for the wind speed.
