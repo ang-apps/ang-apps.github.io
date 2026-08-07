@@ -263,7 +263,7 @@ function forecast(myObj) {
       var Lt = lat.toString(),
           Ln = lon.toString(),
           rDtTm = ("00" + mm).slice(-2) + "/" + ("00" + dd).slice(-2) + "/" + ("0000" + yy).slice(-4) + " at " + ("00" + hr).slice(-2) + ":" + ("00" + mn).slice(-2) + fcs[i]["startTime"].slice(19,22) + "00",
-          rTm = ("00" + hr).slice(-2) + ":00 - " + ("00" + hr).slice(-2) + ":59",
+          rTm = ("00" + hr).slice(-2) + ":00",
           Ta = fcs[i]["temperature"].toString(), // degrees F
           RH = fcs[i]["relativeHumidity"]["value"].toString(), //percent
           Ws = fcs[i]["windSpeed"].slice(0,fcs[i]["windSpeed"].length-4), //mph
