@@ -1330,18 +1330,24 @@ function calc_wbgt(year, month, day, hour, minute, gmt, avg, lat, lon,
     /* 
      *  estimate the wind speed, if necessary
      */
-    //Log Law Surface Roughness Windspeed Reduction
-    var instrumentError = Math.max(2.0, 0.05*speed),
-        speedCorrected = Math.max(0.0, speed - instrumentError),
-        speed10m = speedCorrected*(Math.log(10.0/0.35)/Math.log(10.0/0.03));
-    //Power Law Stability Class Windspeed Reduction
+    //Worst-case sensor error windspeed reduction
+    //var instrumentError = Math.max(2.0, 0.05*speed),
+    //    speedCorrected = Math.max(0.0, speed - instrumentError);
     var REF_HEIGHT = 2.0; // 2-meter reference height
+    //Cascade log law and power law windspeed reduction for daytime
+    //Use power law windspeed reduction for nighttime
     if ( zspeed != REF_HEIGHT ) {	
 	    var daytime;
-	    if ( cza > 0 ) 
+	    if ( cza > 0 ) {
 	      daytime = true;
-	    else
+        //speed10m = speedCorrected*(Math.log(10.0/0.35)/Math.log(10.0/0.03));
+        speed10m = speed*(Math.log(10.0/0.35)/Math.log(10.0/0.03));
+      }
+	    else {
 	      daytime = false;
+        //speed10m = speedCorrected;
+        speed10m = speed;
+      }
 	    var stability_class = stab_srdt(daytime, speed10m, solar, dT);
 	    outputs.est_speed = est_wind_speed(speed10m, zspeed, stability_class, urban);
 	    var speed = outputs.est_speed;
